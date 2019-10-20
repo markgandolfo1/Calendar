@@ -4,7 +4,7 @@
     <title>
         Calendar
     </title>
-    <link rel="stylesheet" type="text/css" href="calendar.css" />
+    <!-- <link rel="stylesheet" type="text/css" href="calendar.css" /> -->
     </head>
     <body>
 
@@ -38,9 +38,9 @@
                                 <div class ="event"> <div>Class</div></div>
                                 
                             </div>-->
-                        <table style="width:100%">
-                            <tr id=month>  </tr>
-                            <tr>
+                        <table class = 'table' style="width:100%">
+                            <tr id=month class='month'>  </tr>
+                            <tr class='dayofweek'>
                                 <th>Sunday</th>
                                 <th>Monday</th>
                                 <th>Tuesday</th>
@@ -49,7 +49,7 @@
                                 <th>Friday</th>
                                 <th>Saturday</th>
                             </tr>
-                            <tr>
+                            <tr class='daygrid'>
                                 <td id=1> </td>
                                 <td id=2> </td>
                                 <td id=3> </td>
@@ -58,7 +58,7 @@
                                 <td id=6> </td>
                                 <td id=7> </td>
                             </tr>
-                            <tr>
+                            <tr class='daygrid'>
                                     <td id=8>  </td>
                                     <td id=9> </td>
                                     <td id=10> </td>
@@ -67,7 +67,7 @@
                                     <td id=13> </td>
                                     <td id=14> </td>
                             </tr>
-                                <tr>
+                                <tr class='daygrid'>
                                         <td id=15> </td>
                                         <td id=16> </td>
                                         <td id=17> </td>
@@ -76,7 +76,7 @@
                                         <td id=20> </td>
                                         <td id=21> </td>
                                     </tr>
-                                    <tr>
+                                    <tr class='daygrid'>
                                             <td id=22> </td>
                                             <td id=23> </td>
                                             <td id=24> </td>
@@ -85,7 +85,7 @@
                                             <td id=27> </td>
                                             <td id=28> </td>
                                         </tr>
-                                        <tr>
+                                        <tr class='daygrid'>
                                                 <td id=29> </td>
                                                 <td id=30> </td>
                                                 <td id=31> </td>
@@ -94,7 +94,7 @@
                                                 <td id=34> </td>
                                                 <td id=35> </td>
                                             </tr>
-                                            <tr>
+                                            <tr class='daygrid'>
                                                     <td id=36> </td>
                                                     <td id=37> </td>
                                                     <td id=38> </td>
@@ -116,20 +116,11 @@
             <label for="date"> Date of Event:</label>
             <input type="text" name="date" id="date" />
 
-
-            <!-- <label for="year"> Year of Event:</label>
-            <input type="text" name="year" id="year" />
-
-            <label for="month"> Month of Event:</label>
-            <input type="text" name="month" id="month" />
-
-            <label for="day"> Day of Event:</label>
-            <input type="text" name="day" id="day" /> -->
-
             <label for="time"> Time of Event:</label>
             <input type="text" name="time" id="time" />
 
             <button id="event_btn">Add Event</button>
+            <button id="delete_btn">Remove Event</button>
 
             
 
@@ -164,41 +155,6 @@ function getDays(month){
 
 updateCalendar();
 
-// let initialdays = getDays(currentMonth.month);
-// updateCalendar(initialdays,3);
-
-// function getEvents(){
-// let titles = new Array();
-// let years = new Array();
-// let months = new Array();
-// let days = new Array();
-// let times = new Array();
-// let events = new Array();
-
-//     fetch("events.php", {
-//             method: 'POST',
-//         })
-//         .then(function(response){
-
-//             return response.json()
-//         })
-//         //.then(response => response.json())
-//         .then(function(data){
-//             for(i=0;i<data.num;i++){
-//                 titles.push(data.title[i]);
-//                 years.push(data.year[i]);
-//                 months.push(data.month[i]);
-//                 days.push(data.day[i]);
-//                 times.push(data.time[i]);
-//             }
-//             //console.log(dates[0]);
-//                 events.push(title);
-//                 events.push(times);
-                
-//         })
-
-// }
-
 function updateCalendar(){
     let days = 0;
     let startingday = 0;
@@ -218,7 +174,7 @@ function updateCalendar(){
                 startingday = 1;
         }
     
-        
+ 
 
     let titles_array = new Array();
     let years_array = new Array();
@@ -236,8 +192,6 @@ function updateCalendar(){
         })
         //.then(response => response.json())
         .then(function(data){
-            console.log("o");
-            let titles_array = new Array();
             for(i=0;i<data.num;i++){
 
             if(currentMonth.year==data.year[i]){
@@ -252,6 +206,9 @@ function updateCalendar(){
                         start = 1;
                     }
                     document.getElementById(start+data.day[i]-1).appendChild(document.createTextNode(data.title[i]));
+                    let delete_btn = document.createElement("button");
+                    delete_btn.appendChild(document.createTextNode("Delete"));
+                    document.getElementById(start+data.day[i]-1).appendChild(delete_btn);
                 }
             }
 
@@ -267,11 +224,10 @@ function updateCalendar(){
         })
 
     for(j=1;j<43;j++){
-    if(document.getElementById(j).firstChild!=null){
+    while(document.getElementById(j).firstChild!=null){
         document.getElementById(j).removeChild(document.getElementById(j).lastChild);
 }
 }
-console.log(startingday);
 for(b=1;b<days+1;b++){
 
 document.getElementById(startingday).appendChild(document.createTextNode(b));
@@ -349,6 +305,7 @@ document.getElementById("login_btn").addEventListener("click", login, false);
 document.getElementById("createacct_btn").addEventListener("click", createacct, false);
 document.getElementById("event_btn").addEventListener("click", addevent, false);
 document.getElementById("logout_btn").addEventListener("click", updateCalendar, false);
+document.getElementById("delete_btn").addEventListener("click", removeevent, false);
 
 
 function login(event) {
@@ -425,8 +382,8 @@ function createacct(event) {
          }
         })
         .then(response => response.json())
-        .then(data => console.log((data.success ? "/ronald you've been logged in!" : `You were not logged in ${data.message}`)));
-
+        .then(data => updateCalendar()
+);
     }
 
     </script>
