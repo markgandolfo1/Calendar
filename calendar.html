@@ -4,7 +4,7 @@
     <title>
         Calendar
     </title>
-    <!-- <link rel="stylesheet" type="text/css" href="calendar.css" /> -->
+    <link rel="stylesheet" type="text/css" href="calendar.css" />
     </head>
     <body>
 
@@ -384,6 +384,12 @@ function createacct(event) {
         .then(response => response.json())
         .then(data => updateCalendar()
 );
+    }
+
+    function removeevent(event) {
+    event.preventDefault();
+    
+
     }
 
     </script>
