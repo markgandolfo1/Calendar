@@ -1,5 +1,7 @@
 /* .table{
     width: 700px;
+.table{
+    width: 300px;
     border: 2px solid black;
     padding: 10px;
     border-radius: 20px;
@@ -7,17 +9,27 @@
     background-color: blue;}
 
 .month{
-    font-size:60px;}
+    font-size:34px;}
 
-https://zellwk.com/blog/calendar-with-css-grid/ 
+/*https://zellwk.com/blog/calendar-with-css-grid/ */
+.dayofweek{
+    font-size: 18px;
+    display:grid;
+    grid-template-columns: repeat(7, 1fr);
+    background-color: burlywood;
+    text-align: center; 
+    grid-gap: 100px 80px;
+    padding: 10px;
+    }
 
-.dayofweek,
 .daygrid{
-display: inline-grid;
+font-size:20px;
+display: grid;
 grid-template-columns: repeat(7, 1fr);
 background-color: cadetblue;
 border: 4px solid black;
 grid-auto-flow: dense;
-grid-gap: 100px 20px;
-padding: 40px;
-width: 600px;} */
+grid-gap: 100px 80px;
+padding: 10px;
+height: 80px;
+}
