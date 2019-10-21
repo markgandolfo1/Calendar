@@ -205,20 +205,28 @@ function updateCalendar(){
                     let delete_btn = document.createElement("button");
                     delete_btn.appendChild(document.createTextNode("Delete"));
                     delete_btn.addEventListener('click', removeevent, false);
+                    delete_btn.eventidnum = data.eventid[i];
                     
-                    function removeevent() {
-                        console.log("g");
-                    //     if(loggedin == true){
-                    //         fetch("events.php", {
-                    //         method: 'POST',
-                    //     })
-                    //     .then(res => res.json())
+                    function removeevent(event) {
+                        event.preventDefault();
+                        let eventid = event.target.eventidnum;
+                        
 
-                    //     //.then(response => response.json())
-                    //     .then(function(data){
 
-                    //     })
-                    //  }
+                        let data = { 'eventid': eventid};
+                         let path = 'deleteevent_ajax.php';
+                            fetch(`./deleteevent_ajax.php`, {
+                                method: 'POST',
+                                    body: JSON.stringify(data),
+                                    headers: { 
+                                    'content-type': 'application/json',
+                                    'Accept': 'application/json'
+                                    }
+                                    })
+                                    .then(response => response.json())
+                                        .then((data) => {
+                                    updateCalendar()
+                                    });
                     }
 
 
