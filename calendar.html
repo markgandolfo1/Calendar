@@ -5,6 +5,7 @@
         Calendar
     </title>
     <link rel="stylesheet" type="text/css" href="calendar.css" />
+    <script type="text/javascript" src="http://classes.engineering.wustl.edu/cse330/content/calendar.min.js"></script>
     </head>
     <body>
 
@@ -124,15 +125,11 @@
 
             
 
-            <input type='hidden' onclick= 'session_destroy() ' name='token' value='$_SESSION[token]'/>
             <input type='submit' value='Logout' id='logout_btn'/>
 
     <script>
-        (function(){Date.prototype.deltaDays=function(c){return new Date(this.getFullYear(),this.getMonth(),this.getDate()+c)};Date.prototype.getSunday=function(){return this.deltaDays(-1*this.getDay())}})();
-function Week(c){this.sunday=c.getSunday();this.nextWeek=function(){return new Week(this.sunday.deltaDays(7))};this.prevWeek=function(){return new Week(this.sunday.deltaDays(-7))};this.contains=function(b){return this.sunday.valueOf()===b.getSunday().valueOf()};this.getDates=function(){for(var b=[],a=0;7>a;a++)b.push(this.sunday.deltaDays(a));return b}}
-function Month(c,b){this.year=c;this.month=b;this.nextMonth=function(){return new Month(c+Math.floor((b+1)/12),(b+1)%12)};this.prevMonth=function(){return new Month(c+Math.floor((b-1)/12),(b+11)%12)};this.getDateObject=function(a){return new Date(this.year,this.month,a)};this.getWeeks=function(){var a=this.getDateObject(1),b=this.nextMonth().getDateObject(0),c=[],a=new Week(a);for(c.push(a);!a.contains(b);)a=a.nextWeek(),c.push(a);return c}};
-        
-var currentMonth = new Month(2019, 9);
+let loggedin = false;      
+let currentMonth = new Month(2019, 9);
 const month = document.getElementById("month");
 //month.appendChild(document.createTextNode(currentMonth.month));
 function getDays(month){
@@ -182,16 +179,15 @@ function updateCalendar(){
     let days_array = new Array();
     let times_array = new Array();
     let num = 0;
-
+    if(loggedin==true){
     fetch("events.php", {
             method: 'POST',
         })
-        .then(function(response){
-
-            return response.json()
-        })
-        //.then(response => response.json())
+        //.then(response => response.text())
+        .then(response => response.json())
         .then(function(data){
+            // console.log(data.num);
+
             for(i=0;i<data.num;i++){
 
             if(currentMonth.year==data.year[i]){
@@ -208,6 +204,26 @@ function updateCalendar(){
                     document.getElementById(start+data.day[i]-1).appendChild(document.createTextNode(data.title[i]));
                     let delete_btn = document.createElement("button");
                     delete_btn.appendChild(document.createTextNode("Delete"));
+                    delete_btn.addEventListener('click', removeevent, false);
+                    
+
+                    function removeevent() {
+                        if(loggedin == true){
+                            fetch("events.php", {
+                            method: 'POST',
+                        })
+                        .then(res => res.json())
+
+                        //.then(response => response.json())
+                        .then(function(data){
+
+                            console.log("yo");
+                        })
+                     }
+                    }
+
+
+
                     document.getElementById(start+data.day[i]-1).appendChild(delete_btn);
                 }
             }
@@ -219,10 +235,9 @@ function updateCalendar(){
                 // days_array.push(data.day[i]);
                 // times_array.push(data.time[i]);
             }
-            num = data.num;
 
         })
-
+    }
     for(j=1;j<43;j++){
     while(document.getElementById(j).firstChild!=null){
         document.getElementById(j).removeChild(document.getElementById(j).lastChild);
@@ -304,9 +319,7 @@ document.getElementById("next_month_btn").addEventListener("click", function(eve
 document.getElementById("login_btn").addEventListener("click", login, false);
 document.getElementById("createacct_btn").addEventListener("click", createacct, false);
 document.getElementById("event_btn").addEventListener("click", addevent, false);
-document.getElementById("logout_btn").addEventListener("click", updateCalendar, false);
-document.getElementById("delete_btn").addEventListener("click", removeevent, false);
-
+document.getElementById("logout_btn").addEventListener("click", logout, false);
 
 function login(event) {
     event.preventDefault();
@@ -327,19 +340,75 @@ function login(event) {
          }
         })
         .then(response => response.json())
-        .then(data => alert(data.success ? "Hello " + username + "/ronald you've been logged in!" : `You were not logged in ${data.message}`));
+        .then((data) => {
+            console.log(data);
+            alert(data.success ? "Hello " + username + "/ronald you've been logged in!" : `You were not logged in ${data.message}`)
+            if(data.success){
+                loggedin = true;
+            }
+            updateCalendar();
+        })
+    }
 
 
 
-    //     if(username=='ronald'){
-    // src = 'https://cpb-us-w2.wpmucdn.com/sites.wustl.edu/dist/2/1297/files/2015/07/ron-cytron.jpg';
-    //         img = document.createElement('img');
-    //         img.src = src;
-    //         month.appendChild(img);}
+    function logout() {
+        let username = "hi"; // Get the username from the form
+        let password = "ron"; // Get the password from the form
 
-        //.then(data => console.log(data.success));
+
+    
+    // Make a URL-encoded string for passing POST data:
+        let data = { 'username': username, 'password': password };
+        let path = 'logout_ajax.php';
+        fetch(`./logout_ajax.php`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 
+                'content-type': 'application/json',
+                'Accept': 'application/json'
+            }
+        }).then(res => res.json())
+        .then((data) => {
+            if(data.success){
+                loggedin = false;
+                alert(data.message);
+            }
+            updateCalendar();
+        }).catch(err => console.error(err));
+        //  .then(data => updateCalendar());
+        console.log("yo");
 
     }
+
+    function clearCalendar(){
+        for(j=1;j<43;j++){
+    while(document.getElementById(j).firstChild!=null){
+        document.getElementById(j).removeChild(document.getElementById(j).lastChild);
+}
+    }
+    
+    dayzero = getDayZero();
+            let diff = getDays(currentMonth.prevMonth().month) - dayzero;
+            days = getDays(currentMonth.month);
+            if(dayzero!=1){
+                startingday = diff+2;
+                }
+            else{
+                startingday = 1;
+        }
+
+
+    for(b=1;b<days+1;b++){
+
+document.getElementById(startingday).appendChild(document.createTextNode(b));
+
+startingday++;
+//logout();
+
+}
+
+}
 
 function createacct(event) {
     event.preventDefault();
@@ -382,15 +451,11 @@ function createacct(event) {
          }
         })
         .then(response => response.json())
-        .then(data => updateCalendar()
-);
+        .then((data) => {
+            updateCalendar()
+        });
     }
 
-    function removeevent(event) {
-    event.preventDefault();
-    
-
-    }
 
     </script>
 
