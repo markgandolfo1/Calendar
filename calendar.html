@@ -206,20 +206,19 @@ function updateCalendar(){
                     delete_btn.appendChild(document.createTextNode("Delete"));
                     delete_btn.addEventListener('click', removeevent, false);
                     
-
                     function removeevent() {
-                        if(loggedin == true){
-                            fetch("events.php", {
-                            method: 'POST',
-                        })
-                        .then(res => res.json())
+                        console.log("g");
+                    //     if(loggedin == true){
+                    //         fetch("events.php", {
+                    //         method: 'POST',
+                    //     })
+                    //     .then(res => res.json())
 
-                        //.then(response => response.json())
-                        .then(function(data){
+                    //     //.then(response => response.json())
+                    //     .then(function(data){
 
-                            console.log("yo");
-                        })
-                     }
+                    //     })
+                    //  }
                     }
 
 
