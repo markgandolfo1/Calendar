@@ -80,9 +80,11 @@ if(password_verify($password, $pwd_hash)){
     // Login failed; redirect back to the login screen
 	echo json_encode(array(
 		"success" => false,
-		"message" => "Incorrect Username or Password"
+        "message" => "Incorrect Username or Password",
+        "username" => $username
     ));
 	exit;
 }
+
 
 ?>
