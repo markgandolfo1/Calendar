@@ -90,7 +90,7 @@
                                                     <td id=41> </td>
                                                     <td id=42> </td>
                                                 </tr>
-                                                <tr class ="theme">
+                                                <tr class ="theme" id="themes">
                                                 <strong> Theme: </strong>
                                                 <input type="radio" name="theme" value="classic" id="classic"> Classic 
                                                 <input type="radio" name="theme" value="night" id ="night" > Night Mode
@@ -119,8 +119,48 @@
             
 
             <input type='submit' value='Logout' id='logout_btn'/>
+            <div id=customtheme>
+                <strong>Custom Theme </strong>
+                    Background Color
+                <select name= "Background Color" id= "bk"> 
+                    <option value="black">Black</option>
+                    <option value="blue">Blue</option>
+                    <option value="Green">Green</option>
+                    <option value="White">White</option>
+                </select>
+                Text Color
+                <select name= "Text Color" id = "txt"> 
+                    <option value="black">Black</option>
+                    <option value="blue">Blue</option>
+                    <option value="Green">Green</option>
+                    <option value="White">White</option>
+                </select>
+                Week Color
+                <select name= "Week Color" id ="wk"> 
+                    <option value="black">Black</option>
+                    <option value="blue">Blue</option>
+                    <option value="Green">Green</option>
+                    <option value="White">White</option>
+                </select>
+                Day Color
+                <select name= "Day Color" id="day"> 
+                    <option value="black">Black</option>
+                    <option value="blue">Blue</option>
+                    <option value="Green">Green</option>
+                    <option value="White">White</option>
+                </select>
+
+                <button id="newTheme">Change Theme</button>
+            </div>
 
     <script>
+let usernamelog = null;
+let loggedin = true
+if(username == null){
+let loggedin = false;     
+}
+let currentMonth = new Month(2019, 9);
+const month = document.getElementById("month");
 
         document.getElementById("classic").addEventListener("click", classictheme, false);
         function classictheme(){
@@ -161,14 +201,36 @@
             document.getElementById('daygrid4').style.backgroundColor="rgba(10, 224, 106, 0.87)";
             document.getElementById('daygrid5').style.backgroundColor="rgba(10, 224, 106, 0.87)";
         }
-classictheme();
-let usernamelog = null;
-let loggedin = true
-if(username == null){
-let loggedin = false;     
+let newtheme = document.getElementById("newTheme");
+newtheme.addEventListener("click", addtheme, false);
+function addtheme(){
+    let background = document.getElementById("bk");
+    document.getElementById('table').style.backgroundColor=background.value;
+
+    let text = document.getElementById("txt");
+    document.getElementById('table').style.color=text.value;
+
+    let week = document.getElementById("wk");
+    document.getElementById('dayofweek').style.backgroundColor=week.value;
+
+    let day = document.getElementById("day").value;
+    document.getElementById('daygrid').style.backgroundColor=day;
+            document.getElementById('daygrid1').style.backgroundColor=day;
+            document.getElementById('daygrid2').style.backgroundColor=day;
+            document.getElementById('daygrid3').style.backgroundColor=day;
+            document.getElementById('daygrid4').style.backgroundColor=day;
+            document.getElementById('daygrid5').style.backgroundColor=day;
+
+            // if(loggedin==true){
+            //     let themes = document.getElementById("themes");
+                
+            // }
+
+
 }
-let currentMonth = new Month(2019, 9);
-const month = document.getElementById("month");
+classictheme();
+
+
 
 function getDays(month){
 
@@ -189,6 +251,7 @@ function getDays(month){
 }
 
 updateCalendar();
+
 
 function updateCalendar(){
     let days = 0;
