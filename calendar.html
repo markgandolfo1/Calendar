@@ -27,7 +27,7 @@
 
                         <table class = "table" id = "table">
                             <tr id='month' class='month'>  </tr>
-                            <tr class='dayofweek'id='dayofweek'>
+                            <tr class='dayofweek' id='dayofweek'>
                                 <th>Sunday</th>
                                 <th>Monday</th>
                                 <th>Tuesday</th>
@@ -98,11 +98,58 @@
                                                  
                                             </tr>
                         </table>
+
+                        <!-- css for popup box: https://www.w3schools.com/howto/howto_css_modals.asp -->
+                        <meta name="viewport" content="width=device-width, initial-scale=1">
+                        <style>
+                        /* The Modal (background) */
+                        .modal {
+                          display: none; /* Hidden by default */
+                          position: fixed; /* Stay in place */
+                          z-index: 1; /* Sit on top */
+                          padding-top: 100px; /* Location of the box */
+                          left: 0;
+                          top: 0;
+                          width: 100%; /* Full width */
+                          height: 100%; /* Full height */
+                          overflow: auto; /* Enable scroll if needed */
+                          background-color: rgb(0,0,0); /* Fallback color */
+                          background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+                        }
                         
+                        /* Modal Content */
+                        .modal-content {
+                          background-color: #fefefe;
+                          margin: auto;
+                          padding: 20px;
+                          border: 1px solid #888;
+                          width: 80%;
+                        }
+                        
+                        /* The Close Button */
+                        .close {
+                          color: #aaaaaa;
+                          float: right;
+                          font-size: 28px;
+                          font-weight: bold;
+                        }
+                        
+                        .close:hover,
+                        .close:focus {
+                          color: #000;
+                          text-decoration: none;
+                          cursor: pointer;
+                        }
+                    </style>
+
             <input type="submit" value="Previous Month" id="previous_month_btn"/>            
             <input type="submit" value="Next Month" id="next_month_btn"/>
 
+            <br>
+            <br>
 
+            <strong> Add an Event to Your Calendar!</strong>
+            <br>
 
             <label for="title"> Title of Event:</label>
             <input type="text" name="title" id="title" />
@@ -112,7 +159,15 @@
 
             <label for="time"> Time of Event:</label>
             <input type="text" name="time" id="time" />
+
+<br>
+
+            <label for="tags"> Is your event one of these occasions?</label>
+            <input type="checkbox" name="birthday" value="Birthday" id="birthday" /> Birthday
+
+
             <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
+
             <button id="event_btn">Add Event</button>
             
 
@@ -154,10 +209,17 @@
             </div>
 
     <script>
+
+
+
+
 let usernamelog = null;
 let loggedin = true
 if(username == null){
 let loggedin = false;     
+}
+else{
+
 }
 let currentMonth = new Month(2019, 9);
 const month = document.getElementById("month");
@@ -303,9 +365,48 @@ function updateCalendar(){
                     else{
                         start = 1;
                     }
-                    
-                    document.getElementById(start+data.day[i]-1).appendChild(document.createElement("br"));
+
+// used for popup box below: https://www.w3schools.com/howto/howto_css_modals.asp
+document.getElementById(start+data.day[i]-1).appendChild(document.createElement("br"));
                     document.getElementById(start+data.day[i]-1).appendChild(document.createTextNode(data.title[i]));
+                    let popup_btn = document.getElementById(start+data.day[i]-1).appendChild(document.createElement("button", id="myBtn"));
+                    popup_btn.appendChild(document.createTextNode("Popup"));
+
+        let bigdiv = document.createElement("div");
+        bigdiv.id = "myModal"+i;
+        bigdiv.classList.add("modal");
+
+var span = document.getElementsByClassName("close")[0];
+
+popup_btn.onclick = function() {
+  bigdiv.style.display = "block";
+}
+
+window.addEventListener("click", closepopup, false);
+function closepopup(){
+  if (event.target == bigdiv) {
+    bigdiv.style.display = "none";
+  }
+}
+
+                    
+        
+                    let div = document.createElement("div");
+                    div.id = "pop"+i;
+                    div.classList.add("modal-content");
+                   let p = document.createElement("div");
+                   p.id = "par"+i;
+                   div.appendChild(p);
+                   bigdiv.appendChild(div);
+                   document.getElementById(start+data.day[i]-1).appendChild(bigdiv);
+
+                    p.appendChild(document.createTextNode(data.title[i]));
+
+
+                    if(data.birthday[i]==1){
+                    document.getElementById("pop"+i).appendChild(document.createTextNode("Today's your birthday!"));
+
+                }
                     let delete_btn = document.createElement("button");
                     delete_btn.appendChild(document.createTextNode("Delete"));
                     delete_btn.addEventListener('click', removeevent, false);
@@ -313,38 +414,56 @@ function updateCalendar(){
 
 
                     let edittitle_box = document.createElement("input");
-                    edittitle_box.setAttribute("id", "titlebox");
+                    edittitle_box.setAttribute("id", "titlebox" + data.eventid[i]);
                     edittitle_box.setAttribute("type", "text");
                     edittitle_box.setAttribute("value", data.title[i]);
                     edittitle_box.eventidnum = data.eventid[i];
 
                     let editdate_box = document.createElement("input");
-                    editdate_box.setAttribute("id", "datebox");
+                    editdate_box.setAttribute("id", "datebox" + data.eventid[i]);
                     editdate_box.setAttribute("type", "text");
                     editdate_box.setAttribute("value", data.year[i]+"-"+data.month[i]+"-"+data.day[i]);
                     editdate_box.eventidnum = data.eventid[i];
 
                     let edittime_box = document.createElement("input");
-                    edittime_box.setAttribute("id", "timebox");
+                    edittime_box.setAttribute("id", "timebox" + data.eventid[i]);
                     edittime_box.setAttribute("type", "text");
                     edittime_box.setAttribute("value", data.time[i]);
                     edittime_box.eventidnum = data.eventid[i];
+
+                    let editbirthday_box = document.createElement("input");
+                    editbirthday_box.setAttribute("id", "birthdaybox" + data.birthday[i]);
+                    editbirthday_box.setAttribute("type", "text");
+                    editbirthday_box.setAttribute("value", data.birthday[i]);
+                    editbirthday_box.eventidnum = data.eventid[i];
 
                     let edit_btn = document.createElement("button");
                     edit_btn.appendChild(document.createTextNode("Edit"));
                     edit_btn.addEventListener('click', editevent, false);
                     edit_btn.eventidnum = data.eventid[i];
 
+                    // function viewpopup(event){
+                    //     event.preventDefault();
+                    //     let modal = document.getElementById("myModal");
+                    //     console.log("yo");
+                    //     modal.style.display = "block";
+                    //     console.log("yo");
+
+
+                    // }
+
                     function editevent(event){
                         event.preventDefault();
+                        console.log("this should only print once");
+
                         let eventid = event.target.eventidnum;
-                        
-                        let title = document.getElementById("titlebox").value; 
-                        let date = document.getElementById("datebox").value; 
-                        let time = document.getElementById("timebox").value; 
+                        console.log(eventid);
+                        let title = document.getElementById("titlebox" + eventid).value; 
+                        let date = document.getElementById("datebox" + eventid).value; 
+                        let time = document.getElementById("timebox" + eventid).value; 
 
 
-                        let data = { 'title': title, 'date': date, 'time': time, eventid:'eventid'};
+                        let data = { 'title': title, 'date': date, 'time': time, 'eventid':eventid, 'birthday':birthday};
                          let path = 'editevent.php';
                             fetch(`./editevent.php`, {
                                 method: 'POST',
@@ -354,11 +473,8 @@ function updateCalendar(){
                                     'Accept': 'application/json'
                                     }
                                     })
-                                    .then(response => response.json())
-                                    .then((data) => {
-            
-            updateCalendar();
-        })
+                                    .then(updateCalendar());
+                                   //updateCalendar();
                     }
                    
                 
@@ -388,15 +504,21 @@ function updateCalendar(){
                     token.setAttribute("type", "hidden");
                     token.setAttribute("value", "<?php echo $_SESSION['token'];?>");
 
-                    document.getElementById(start+data.day[i]-1).appendChild(token);
-                    document.getElementById(start+data.day[i]-1).appendChild(delete_btn);
-                    document.getElementById(start+data.day[i]-1).appendChild(edittitle_box);
-                    document.getElementById(start+data.day[i]-1).appendChild(editdate_box);
-                    document.getElementById(start+data.day[i]-1).appendChild(edittime_box);
+                    // document.getElementById(start+data.day[i]-1).appendChild(token);
+                    // document.getElementById(start+data.day[i]-1).appendChild(delete_btn);
+                    // document.getElementById(start+data.day[i]-1).appendChild(edittitle_box);
+                    // document.getElementById(start+data.day[i]-1).appendChild(editdate_box);
+                    // document.getElementById(start+data.day[i]-1).appendChild(edittime_box);
 
+                    document.getElementById("pop"+i).appendChild(token);
+                    document.getElementById("pop"+i).appendChild(delete_btn);
+                    document.getElementById("pop"+i).appendChild(edittitle_box);
+                    document.getElementById("pop"+i).appendChild(editdate_box);
+                    document.getElementById("pop"+i).appendChild(edittime_box);
+                    document.getElementById("pop"+i).appendChild(editbirthday_box);
                     
-                    document.getElementById(start+data.day[i]-1).appendChild(token);
-                    document.getElementById(start+data.day[i]-1).appendChild(edit_btn);
+                    document.getElementById("pop"+i).appendChild(token);
+                    document.getElementById("pop"+i).appendChild(edit_btn);
                 }
             }
 
@@ -575,9 +697,11 @@ function createacct(event) {
     let title = document.getElementById("title").value; 
     let date = document.getElementById("date").value; 
     let time = document.getElementById("time").value; 
+    let birthday = document.getElementById("birthday").checked; 
 
 
-    let data = { 'title': title, 'date': date, 'time': time};
+
+    let data = { 'title': title, 'date': date, 'time': time, 'birthday': birthday};
     let path = 'addevent_ajax.php';
     fetch(`./addevent_ajax.php`, {
             method: 'POST',

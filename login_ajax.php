@@ -15,39 +15,6 @@ $username = $json_obj['username'];
 $password = $json_obj['password'];
 
 
-//This is equivalent to what you previously did with $_POST['username'] and $_POST['password']
-
-// Check to see if the username and password are valid.  (You learned how to do this in Module 3.)
-
-// $queryResult = mysqli_query($mysqli, $user); 
-// if(mysqli_num_rows($queryResult)!=1) {
-// 	session_start();
-// 	$_SESSION['username'] = $username;
-// 	$_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32)); 
-//     echo("hi");
-// 	echo json_encode(array(
-// 		"success" => true
-// 	));
-// 	exit;
-// }else{
-// 	echo json_encode(array(
-// 		"success" => false,
-// 		"message" => "Incorrect Username or Password"
-// 	));
-// 	exit;
-// }
-
-
-// $user = "select * from users where username='$username'"; 
-// $queryResult = mysqli_query($mysqli, $user); 
-// if(mysqli_num_rows($queryResult)!=1) {
-//     // username does not exist
-//     // send back to index
-//     echo("not");
-//     exit;
-//     echo ("DNE"); 
-// } 
-
 //Check passwords:
 $stmt = $mysqli->prepare("SELECT password FROM users WHERE username=?");
 

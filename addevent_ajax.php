@@ -11,6 +11,8 @@ $json_obj = json_decode($json_str, true);
 $title = $json_obj['title'];
 $date = $json_obj['date'];
 $time = $json_obj['time'];
+$birthday = $json_obj['birthday'];
+
 session_start();
 $username = $_SESSION['username'];
 //$username = "ronald";
@@ -20,13 +22,13 @@ echo json_encode(array(
 ));
 
 //Insert into database:
-$stmt = $mysqli->prepare("insert into events (user, title, date, time) values (?, ?, ?, ?)");
+$stmt = $mysqli->prepare("insert into events (user, title, date, time, birthday) values (?, ?, ?, ?, ?)");
 if(!$stmt){
 	printf("Query Prep Failed: %s\n", $mysqli->error);
 	exit;
 }
 
-$stmt->bind_param('ssss', $username, $title, $date, $time);
+$stmt->bind_param('sssss', $username, $title, $date, $time, $birthday);
 
 $stmt->execute();
 

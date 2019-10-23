@@ -13,13 +13,25 @@ $title = $json_obj['title'];
 $date = $json_obj['date'];
 $time = $json_obj['time'];
 $eventid = $json_obj['eventid'];
+$birthday = $json_obj['birthday'];
 
 
-$stmt = $mysqli->prepare("update events set title = '$title', date = $date, time = $time where eventid=$eventid");
-    if(!$stmt){
-        printf("Query Prep Failed: %s\n", $mysqli->error);
-        exit;
-    }
+
+$stmt = $mysqli->prepare("update events set title = ?, date = ?, time = ?, birthday = ? where eventid=?");
+
+$stmt->bind_param('sssss', $title, $date, $time, $eventid, $birthday);
+//$stmt->execute();
+
+
+    // if(!$stmt){
+
+    //     echo json_encode(array(
+    //         "success" => $mysqli->error
+    //     ));
+
+    //     //printf("Query Prep Failed: %s\n", $mysqli->error);
+    //     exit;
+    // }
     $stmt->execute();
     while($stmt->fetch()){
     }
@@ -27,5 +39,3 @@ $stmt = $mysqli->prepare("update events set title = '$title', date = $date, time
     $stmt->close();
     
     ?>
-    
-   
