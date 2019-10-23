@@ -30,6 +30,16 @@ echo json_encode(array(
     "success" => $title
 ));
 
+
+$user = "select * from users where username='$groupuser'"; 
+$queryResult = mysqli_query($mysqli, $user); 
+if(mysqli_num_rows($queryResult)!=1) {
+    // username does not exist
+    // send back to index
+    exit;
+} 
+
+else{
 //Insert into database:
 $stmt = $mysqli->prepare("insert into events (user, title, date, time, birthday) values (?, ?, ?, ?, ?)");
 if(!$stmt){
@@ -42,6 +52,6 @@ $stmt->bind_param('sssss', $groupuser, $title, $date, $time, $birthday);
 $stmt->execute();
 
 $stmt->close();
-   
+}
 
 ?>
