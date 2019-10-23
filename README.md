@@ -3,6 +3,8 @@
 
 464887 
 
+username=don, password=ron is one user we have created that works. You can also create a new user and log in as that.
+
 When adding an event, use January as month 0.
 
 Creative portion: 
