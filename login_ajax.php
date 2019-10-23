@@ -34,8 +34,17 @@ if(password_verify($password, $pwd_hash)){
     //if($password==$pwd_hash){
 
     // Login succeeded!
+    ini_set("session.cookie_httponly", 1);
 
     session_start();
+    $previous_ua = @$_SESSION['useragent'];
+$current_ua = $_SERVER['HTTP_USER_AGENT'];
+
+if(isset($_SESSION['useragent']) && $previous_ua !== $current_ua){
+	die("Session hijack detected");
+}else{
+	$_SESSION['useragent'] = $current_ua;
+}
     $_SESSION['username'] = $username;
     $_SESSION['token'] = bin2hex(openssl_random_pseudo_bytes(32));
 

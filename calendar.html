@@ -155,16 +155,18 @@
             <input type="text" name="title" id="title" />
 
             <label for="date"> Date of Event:</label>
-            <input type="text" name="date" id="date" />
+            <input type="text" name="date" id="date" placeholder="YYYY-MM-DD"/>
 
             <label for="time"> Time of Event:</label>
-            <input type="text" name="time" id="time" />
+            <input type="text" name="time" id="time" placeholder="HH:MM:SS"/>
 
 <br>
 
             <label for="tags"> Is your event one of these occasions?</label>
             <input type="checkbox" name="birthday" value="Birthday" id="birthday" /> Birthday
-
+<br>
+            <label for="group"> Type in username of another user to make a group event: </label>
+            <input type="text" name="group" id="group" placeholder="Optional"/>
 
             <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
 
@@ -314,6 +316,47 @@ function getDays(month){
 
 updateCalendar();
 
+function getname(month){
+    if(month==0){
+        return "January";
+    }
+    if(month==1){
+        return "February";
+    }
+    if(month==2){
+        return "March";
+    }
+    if(month==3){
+        return "April";
+    }
+    if(month==4){
+        return "May";
+    }
+    if(month==5){
+        return "June";
+    }
+    if(month==6){
+        return "July";
+    }
+    if(month==7){
+        return "August";
+    }
+    if(month==8){
+        return "September";
+    }
+    if(month==9){
+        return "October";
+    }
+    if(month==10){
+        return "November";
+    }
+    if(month==11){
+        return "December";
+    }
+}
+
+
+
 
 function updateCalendar(){
     let days = 0;
@@ -322,7 +365,9 @@ function updateCalendar(){
     if(month.firstChild!=null){
     month.removeChild(month.lastChild);
     }
-    month.appendChild(document.createTextNode(currentMonth.month));
+
+
+    month.appendChild(document.createTextNode(getname(currentMonth.month)+" "+currentMonth.year));
 
             dayzero = getDayZero();
             let diff = getDays(currentMonth.prevMonth().month) - dayzero;
@@ -370,7 +415,7 @@ function updateCalendar(){
 document.getElementById(start+data.day[i]-1).appendChild(document.createElement("br"));
                     document.getElementById(start+data.day[i]-1).appendChild(document.createTextNode(data.title[i]));
                     let popup_btn = document.getElementById(start+data.day[i]-1).appendChild(document.createElement("button", id="myBtn"));
-                    popup_btn.appendChild(document.createTextNode("Popup"));
+                    popup_btn.appendChild(document.createTextNode("See Event"));
 
         let bigdiv = document.createElement("div");
         bigdiv.id = "myModal"+i;
@@ -432,9 +477,12 @@ function closepopup(){
                     edittime_box.eventidnum = data.eventid[i];
 
                     let editbirthday_box = document.createElement("input");
-                    editbirthday_box.setAttribute("id", "birthdaybox" + data.birthday[i]);
-                    editbirthday_box.setAttribute("type", "text");
-                    editbirthday_box.setAttribute("value", data.birthday[i]);
+                    editbirthday_box.setAttribute("id", "birthdaybox" + data.eventid[i]);
+                    editbirthday_box.setAttribute("type", "checkbox");
+                    if(data.birthday[i]==1){
+                        editbirthday_box.click();
+                    }
+                    // editbirthday_box.setAttribute("value", data.eventid[i]);
                     editbirthday_box.eventidnum = data.eventid[i];
 
                     let edit_btn = document.createElement("button");
@@ -457,11 +505,12 @@ function closepopup(){
                         console.log("this should only print once");
 
                         let eventid = event.target.eventidnum;
-                        console.log(eventid);
                         let title = document.getElementById("titlebox" + eventid).value; 
                         let date = document.getElementById("datebox" + eventid).value; 
                         let time = document.getElementById("timebox" + eventid).value; 
-
+                        let birthday = document.getElementById("birthdaybox" + eventid).checked;
+                        console.log(time);
+                        console.log(birthday);
 
                         let data = { 'title': title, 'date': date, 'time': time, 'eventid':eventid, 'birthday':birthday};
                          let path = 'editevent.php';
@@ -473,7 +522,10 @@ function closepopup(){
                                     'Accept': 'application/json'
                                     }
                                     })
-                                    .then(updateCalendar());
+                                    .then((data) => {
+                                    updateCalendar()
+                                    });
+                                    //.then(updateCalendar());
                                    //updateCalendar();
                     }
                    
@@ -516,6 +568,7 @@ function closepopup(){
                     document.getElementById("pop"+i).appendChild(editdate_box);
                     document.getElementById("pop"+i).appendChild(edittime_box);
                     document.getElementById("pop"+i).appendChild(editbirthday_box);
+                    //BJVBHJLBHVALBDSVAHKBHADKVBHKVDS
                     
                     document.getElementById("pop"+i).appendChild(token);
                     document.getElementById("pop"+i).appendChild(edit_btn);

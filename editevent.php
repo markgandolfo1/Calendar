@@ -19,7 +19,7 @@ $birthday = $json_obj['birthday'];
 
 $stmt = $mysqli->prepare("update events set title = ?, date = ?, time = ?, birthday = ? where eventid=?");
 
-$stmt->bind_param('sssss', $title, $date, $time, $eventid, $birthday);
+$stmt->bind_param('sssss', $title, $date, $time, $birthday, $eventid);
 //$stmt->execute();
 
 
