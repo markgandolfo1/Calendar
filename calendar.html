@@ -49,19 +49,18 @@
     </style>
     </head>
     <body>
-
+           <strong> Log in here:</strong> 
             <input type="text" id="username" placeholder="Username" />
             <input type="password" id="password" placeholder="Password" />
             <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
             <button id="login_btn">Log In</button>
 
             <br>
+                    <strong>Register here: </strong>
+                    <input type="text" id="newuser" placeholder="New Username" />
+                    <input type= "text" id="newuserpassword" placeholder="newuserpassword" />
 
-                    <label for="newuser"> Enter New Username:</label>
-                    <input type="text" name="username" id="newuser" />
-
-                    <label for="newuserpassword"> Create Password:</label>
-                    <input type="text" name="password" id="newuserpassword" />
+                
                 
                     <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
                     <button id="createacct_btn">Register</button>
@@ -136,7 +135,7 @@
                             <strong> Theme: </strong>
                             <input type="radio" name="theme" value="classic" id="classic"> Classic 
                             <input type="radio" name="theme" value="night" id ="night" > Night Mode
-                            <input type="radio" name="theme" value="slime" id ="slatt" > Slime Mode
+                            <input type="radio" name="theme" value="slime" id ="slatt" > Slime
                             </div>
                        
                         <!-- <meta content="width=device-width, initial-scale=1"> -->
@@ -171,11 +170,14 @@
             <input type="hidden" name="token" value="<?php echo $_SESSION['token'];?>" />
 
             <button id="event_btn">Add Event</button>
+
+            <br>
+            <br>
             
 
             
 
-            <input type='submit' value='Logout' id='logout_btn'/>
+           
             <div id=customtheme>
                 <strong>Custom Theme </strong>
                     Background Color
@@ -209,7 +211,7 @@
 
                 <button id="newTheme">Change Theme</button>
             </div>
-
+            <input type='submit' value='Logout' id='logout_btn'/>
     <script>
 
 
@@ -477,7 +479,7 @@ function closepopup(){
                     edittime_box.setAttribute("type", "text");
                     edittime_box.setAttribute("value", data.time[i]);
                     edittime_box.eventidnum = data.eventid[i];
-
+                    
                     let editbirthday_box = document.createElement("input");
                     editbirthday_box.setAttribute("id", "birthdaybox" + data.eventid[i]);
                     editbirthday_box.setAttribute("type", "checkbox");
