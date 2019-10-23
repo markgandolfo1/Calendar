@@ -3,6 +3,8 @@
 
 464887 
 
+When adding an event, use January as month 0.
+
 Creative portion: 
 
 There are three different pre-made themes that you can select from to completely change the color scheme of the calendar. Additionally, you can make your own theme to change the color scheme by making color selctions for different aspects of the calendar.
