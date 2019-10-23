@@ -5,7 +5,48 @@
         Calendar
     </title>
     <link rel="stylesheet" type="text/css" href="calendar.css" />
-    <script type="text/javascript" src="http://classes.engineering.wustl.edu/cse330/content/calendar.min.js"></script>
+    <script  src="http://classes.engineering.wustl.edu/cse330/content/calendar.min.js"></script>
+    <style>
+         /* <!-- css for popup box: https://www.w3schools.com/howto/howto_css_modals.asp --> */
+        /* The Modal (background) */
+        .modal {
+          display: none; /* Hidden by default */
+          position: fixed; /* Stay in place */
+          z-index: 1; /* Sit on top */
+          padding-top: 100px; /* Location of the box */
+          left: 0;
+          top: 0;
+          width: 100%; /* Full width */
+          height: 100%; /* Full height */
+          overflow: auto; /* Enable scroll if needed */
+          background-color: rgb(0,0,0); /* Fallback color */
+          background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
+        }
+        
+        /* Modal Content */
+        .modal-content {
+          background-color: #fefefe;
+          margin: auto;
+          padding: 20px;
+          border: 1px solid #888;
+          width: 80%;
+        }
+        
+        /* The Close Button */
+        .close {
+          color: #aaaaaa;
+          float: right;
+          font-size: 28px;
+          font-weight: bold;
+        }
+        
+        .close:hover,
+        .close:focus {
+          color: #000;
+          text-decoration: none;
+          cursor: pointer;
+        }
+    </style>
     </head>
     <body>
 
@@ -26,7 +67,7 @@
                     <button id="createacct_btn">Register</button>
 
                         <table class = "table" id = "table">
-                            <tr id='month' class='month'>  </tr>
+                            <caption  class='month' id='month'> </caption>
                             <tr class='dayofweek' id='dayofweek'>
                                 <th>Sunday</th>
                                 <th>Monday</th>
@@ -89,58 +130,17 @@
                                                     <td id=40> </td>
                                                     <td id=41> </td>
                                                     <td id=42> </td>
-                                                </tr>
-                                                <tr class ="theme" id="themes">
-                                                <strong> Theme: </strong>
-                                                <input type="radio" name="theme" value="classic" id="classic"> Classic 
-                                                <input type="radio" name="theme" value="night" id ="night" > Night Mode
-                                                <input type="radio" name="theme" value="slime" id ="slatt" > Slime Mode
-                                                 
-                                            </tr>
+                                               
                         </table>
-
-                        <!-- css for popup box: https://www.w3schools.com/howto/howto_css_modals.asp -->
-                        <meta name="viewport" content="width=device-width, initial-scale=1">
-                        <style>
-                        /* The Modal (background) */
-                        .modal {
-                          display: none; /* Hidden by default */
-                          position: fixed; /* Stay in place */
-                          z-index: 1; /* Sit on top */
-                          padding-top: 100px; /* Location of the box */
-                          left: 0;
-                          top: 0;
-                          width: 100%; /* Full width */
-                          height: 100%; /* Full height */
-                          overflow: auto; /* Enable scroll if needed */
-                          background-color: rgb(0,0,0); /* Fallback color */
-                          background-color: rgba(0,0,0,0.4); /* Black w/ opacity */
-                        }
+                        <div class ="theme" id="themes">
+                            <strong> Theme: </strong>
+                            <input type="radio" name="theme" value="classic" id="classic"> Classic 
+                            <input type="radio" name="theme" value="night" id ="night" > Night Mode
+                            <input type="radio" name="theme" value="slime" id ="slatt" > Slime Mode
+                            </div>
+                       
+                        <!-- <meta content="width=device-width, initial-scale=1"> -->
                         
-                        /* Modal Content */
-                        .modal-content {
-                          background-color: #fefefe;
-                          margin: auto;
-                          padding: 20px;
-                          border: 1px solid #888;
-                          width: 80%;
-                        }
-                        
-                        /* The Close Button */
-                        .close {
-                          color: #aaaaaa;
-                          float: right;
-                          font-size: 28px;
-                          font-weight: bold;
-                        }
-                        
-                        .close:hover,
-                        .close:focus {
-                          color: #000;
-                          text-decoration: none;
-                          cursor: pointer;
-                        }
-                    </style>
 
             <input type="submit" value="Previous Month" id="previous_month_btn"/>            
             <input type="submit" value="Next Month" id="next_month_btn"/>
@@ -162,7 +162,7 @@
 
 <br>
 
-            <label for="tags"> Is your event one of these occasions?</label>
+            <label for="birthday"> Is your event one of these occasions?</label>
             <input type="checkbox" name="birthday" value="Birthday" id="birthday" /> Birthday
 <br>
             <label for="group"> Type in username of another user to make a group event: </label>
@@ -243,7 +243,9 @@ const month = document.getElementById("month");
         function nightmode(){
             
             document.getElementById('table').style.backgroundColor="black";
+            
             document.getElementById('table').style.color="white";
+            document.getElementById('month').style.color = "black";
             document.getElementById('dayofweek').style.backgroundColor="rgb(41, 39, 34)";
             document.getElementById('daygrid').style.backgroundColor="#100166";
             document.getElementById('daygrid1').style.backgroundColor="#100166";
