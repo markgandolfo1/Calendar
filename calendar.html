@@ -161,8 +161,8 @@
 
 <br>
 
-            <label for="birthday"> Is your event one of these occasions?</label>
-            <input type="checkbox" name="birthday" value="Birthday" id="birthday" /> Birthday
+            <label for="birthday"> Is your event:</label>
+            <input type="checkbox" name="birthday" value="Birthday" id="birthday" /> Important
 <br>
             <label for="group"> Type in username of another user to make a group event: </label>
             <input type="text" name="group" id="group" placeholder="Optional"/>
@@ -454,7 +454,7 @@ function closepopup(){
 
 
                     if(data.birthday[i]==1){
-                    document.getElementById("pop"+i).appendChild(document.createTextNode("Today's your birthday!"));
+                    document.getElementById("pop"+i).appendChild(document.createTextNode("This event is important!"));
 
                 }
                     let delete_btn = document.createElement("button");
@@ -757,7 +757,27 @@ function createacct(event) {
     let time = document.getElementById("time").value; 
     let birthday = document.getElementById("birthday").checked; 
 
+    if(document.getElementById("group").value != null){
+        let groupuser = document.getElementById("group").value;
 
+        let data = { 'title': title, 'date': date, 'time': time, 'birthday': birthday, 'groupuser': groupuser};
+    let path = 'addgroupevent_ajax.php';
+    fetch(`./addgroupevent_ajax.php`, {
+            method: 'POST',
+            body: JSON.stringify(data),
+            headers: { 
+                'content-type': 'application/json',
+                'Accept': 'application/json'
+         }
+        })
+        .then(response => response.json())
+        // .then((data) => {
+        //     updateCalendar()
+        // });
+// updateCalendar();
+
+
+        }
 
     let data = { 'title': title, 'date': date, 'time': time, 'birthday': birthday};
     let path = 'addevent_ajax.php';
@@ -773,6 +793,7 @@ function createacct(event) {
         .then((data) => {
             updateCalendar()
         });
+
     }
 
 
