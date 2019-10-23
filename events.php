@@ -38,19 +38,18 @@ $stmt->bind_result($title, $year, $month, $day, $time, $eventid, $birthday);
 
 
 while($stmt->fetch()){
-//$title = htmlentities($title);
+$title = htmlentities($title);
 array_push($title_array,$title);
-//$year = htmlentities($year);
+$year = htmlentities($year);
 array_push($year_array,$year);
-//$month = htmlentities($month);
+$month = htmlentities($month);
 array_push($month_array,$month);
-//$day = htmlentities($day);
 array_push($day_array,$day);
-//$time = htmlentities($time);
+$time = htmlentities($time);
 array_push($time_array,$time);
-//$eventid = htmlentities($eventid);
+$eventid = htmlentities($eventid);
 array_push($eventid_array,$eventid);
-//$birthday = htmlentities($birthday);
+$birthday = htmlentities($birthday);
 array_push($birthday_array,$birthday);
 $num++;
 }
