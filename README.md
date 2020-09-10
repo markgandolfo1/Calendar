@@ -1,20 +1,20 @@
 # Calendar
-464251
 
-464887 
+View the website here: http://ec2-3-15-199-50.us-east-2.compute.amazonaws.com/~markgandolfo/calendar.html
 
-username=don, password=ron is one user we have created that works. You can also create a new user and log in as that.
+This website, which was constructed on an AWS server, features a digital calendar that allows users to add and remove events dynamically. I used JavaScript to process user interactions at the web browser, without ever requiring the browser to refresh after the initial web page load. I utilized AJAX to run server-side scripts that query a MySQL database to save and retrieve information, such as user accounts and events.
 
-When adding an event, use January as month 0.
+Features:
+  - A month-by-month view of the calendar that has no limit on how forward or backwards it can go
+  - Users can register and log in to the website, supported by a MySQL database
+  - Unregistered users cannot see events on the calendar
+  - Registered users can add events, consisting of a date, time and title
+  - Registered users can delete their events, but not the events of others, supported by AJAX requests
+  - All actions are performed over AJAX, without ever needing to reload the page
+  - Event can be tagged as 'important'
+  - Group events can be created which appear on the current users calendar as well as another users calendar
+  - There are three different pre-made themes that to select from to change the color scheme of the calendar, as well as the option to make a custom theme
 
-Creative portion: 
-
-There are three different pre-made themes that you can select from to completely change the color scheme of the calendar. Additionally, you can make your own theme to change the color scheme by making color selctions for different aspects of the calendar.
-You can tag an event as 'important' and when you view the event in a popup window, a message will be displayed saying "This event is important!" You can also untag this event, or tag an event that was not originally marked as important, while editing in the popup window.
-When making a new event you have the option to make it a group event. This will cause the event to show up on both your calendar and the calendar of the user whose username you enter in the box. Leave the box blank if you don't want to make a group event. 
-you can make a group event which will make the event appear on yours and another users calendar. If you enter a username that is not valid, the event will just be added to your calendar.
-
-http://ec2-3-15-199-50.us-east-2.compute.amazonaws.com/~markgandolfo/calendar.html
 
 
 
